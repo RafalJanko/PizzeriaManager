@@ -1,0 +1,13 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Create shift{% endblock %}
+
+{% block content %}
+<h2 class="text-center">Create shift</h2>
+    <form style="width: 10%; margin: auto" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+
+{% endblock %}

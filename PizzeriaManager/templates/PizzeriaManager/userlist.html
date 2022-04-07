@@ -1,0 +1,25 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}List of all users{% endblock %}
+
+
+{% block content %}
+    <h3 class="text-center">Manage users</h3>
+      <table class="table">
+    <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Profile</th>
+    <th>Update Profile</th>
+    <th>Update User details</th>
+    <th>Delete</th>
+    </tr>
+    {% for user in users %}
+    <tr>
+        <td>{{user.first_name}}</td> <td>{{ user.last_name }}</td> <td>{{ user.profile.function }}</td><td><a href="{% url 'manage_users' user.id %}">Update profile</a></td><td><a href="{% url 'UpdateUser' user.id %}">Update user details</a></td>
+    <td><a href="{% url 'DeleteUser' user.id %}">Delete user</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

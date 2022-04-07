@@ -1,0 +1,15 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<form style="width: 10%; margin: auto" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center">
+    <input class="btn btn-dark" type="submit">
+    </div>
+</form>
+    <div style="color: white">.</div>
+{% endblock %}

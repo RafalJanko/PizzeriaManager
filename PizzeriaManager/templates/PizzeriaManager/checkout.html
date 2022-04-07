@@ -1,0 +1,73 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+    <h1 class="d-flex justify-content-center">Checkout</h1>
+    <h2 class="d-flex justify-content-center">Your oder summary:</h2>
+    <table class="table text-center">
+    <thead class="thead-dark">
+    <tr>
+    <th>Pizza name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th>Total for this pizza type</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    {% for key,value in request.session.cart.items %}
+        <td>{{value.name}}</td>
+        <td>{{value.quantity}}</td>
+        <td>{{value.price}}</td>
+        <td>{{ value.price|multiply:value.quantity }}</td>
+    </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+    Order total: {{ number }} zł
+    <div>
+    </div>
+
+    <h2 class="d-flex justify-content-center">Your details:</h2>
+    <table class="table d-flex justify-content-center">
+    <tr>
+    <th>First Name</th>
+    <th>Last Name</th>
+    </tr>
+
+    <tr>
+        <td>{{ request.user.customer.first_name }}</td>
+        <td>{{ request.user.customer.last_name }}</td>
+        <td></td>
+        <td></td>
+    </tr>
+
+    </table>
+    <div class="d-flex justify-content-center">
+    Please provide your delivery address here:
+    </div>
+    <div class="d-flex justify-content-center">
+    <form class="d-block justify-content-center" action="{% url 'thanks' %}" method="post">
+        <div>
+    <textarea name="address" id="address" rows="4" cols="50" placeholder="For example: Bułgarska 17/1, 60-320 Poznań, floor 7"></textarea>
+         </div>
+        <div class="justify-content-center">Payment type:</div>
+        <div class="d-block justify-content-center">
+    <select class="btn btn-dark" name="paymenttype" id="paymenttype">
+    <option value="">--Please choose an option--</option>
+    <option value="cash">Cash</option>
+    <option value="card">Credit card</option>
+    <option value="paypal">PayPal</option>
+    </select>
+        </div>
+    <div style="color: white">a</div>
+                  {% csrf_token %}
+                    <div><button class="btn btn-dark" type="submit">Place Order</button></div>
+    </form>
+    </div>
+    <div style="color: white">.</div>
+
+{% endblock %}

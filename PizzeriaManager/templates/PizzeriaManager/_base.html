@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Pizzeria</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    </head>
+
+    <body class="d-flex flex-column min-vh-100">
+        <!-- Navigation-->
+        {% if user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+
+                <a class="navbar-brand">Logged in as: {{ request.user.customer.username }}</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'menu' %}">Menu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'update_details' request.user.customer.user_id %}">Edit your profile</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage orders</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'menu' %}">Menu</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'orderlist' %}">Order history</a></li>
+                                <li><a class="dropdown-item" href="{% url 'cart_clear' %}">Clear Cart</a></li>
+                            </ul>
+                        </li>
+                        {% if request.user.profile.function == "Staff" %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Staff tab</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View leave history</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if request.user.profile.function == "HR" %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">HR tab</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View your leave history</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'ViewUsers' %}">Manage users</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_all_leaves' %}">Manage all leaves</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                        {% if request.user.profile.function == "Manager" %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manager tab</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View your leave history</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'ViewUsers' %}">Manage users</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_all_leaves' %}">Manage all leaves</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'view_staff' %}">Manage shifts</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'list_pizzas' %}">Manage pizzas</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item" href="{% url 'list_orders_managers' %}">Manage orders</a></li>
+                            </ul>
+                        </li>
+                        {% endif %}
+                         <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
+                    </ul>
+                    <form class="d-flex">
+                        <button href="" class="btn btn-outline-dark" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            <a href="{% url 'cart_detail' %}">Cart</a>
+                            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ number_items }}</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        {% endif %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Pizzeria</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Welcome to our website!</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+       {% block content %}
+        {% endblock content %}
+        <!-- Footer-->
+        <footer class="py-5 bg-dark mt-auto">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Rafal Jankowski 2022</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>

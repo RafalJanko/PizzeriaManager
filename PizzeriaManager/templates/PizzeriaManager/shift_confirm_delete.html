@@ -1,0 +1,15 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Confirm delete?{% endblock %}
+
+{% block content %}
+
+    <form method="post">{% csrf_token %}
+    <p>Are you sure you want to delete shift #{{ shift.id }}, date {{ shift.date }}, {{ shift.shift }} for user {{ shift.user.first_name }}
+        {{ shift.user.last_name }}?</p>
+    {{ form }}
+    <input type="submit" value="Confirm">
+</form>
+
+{% endblock %}

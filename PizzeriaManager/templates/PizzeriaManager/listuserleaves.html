@@ -1,0 +1,32 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Your leaves {% endblock %}
+
+
+{% block content %}
+
+    <h2 class="text-center">Your Leaves:</h2>
+
+    <table class="table">
+    <tr>
+    <th>Leave id</th>
+    <th>Leave start date</th>
+    <th>Leave end date</th>
+    <th>Leave reason</th>
+    <th>Leave status</th>
+    </tr>
+    {% for leave in leaves %}
+    <tr>
+
+        <td>{{ leave.id }}</td>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>{{ leave.status }}</td>
+    {% endfor %}
+    </tr>
+    </table>
+
+    <div class="text-center">If you wish to edit/cancel a leave request - please contact HR</div>
+{% endblock %}

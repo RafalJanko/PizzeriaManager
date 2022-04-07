@@ -1,0 +1,37 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Your order history{% endblock %}
+
+{% block content %}
+
+    <h3 class="text-center">Your order history</h3>
+
+    <table class="table">
+    <tr>
+    <th>When</th>
+    <th>Ordered by</th>
+    <th>Ordered items</th>
+    <th>Total</th>
+    <th>Delivery address</th>
+    <th>Paid by</th>
+    </tr>
+
+{% for order in orders %}
+    <tr>
+    <td>{{ order.timestamp }}</td>
+    <td>{{ order.customer.first_name}} {{ order.customer.last_name }}</td>
+       <td> {% for item in order.items.all %}
+        {{ item.pizza_name }} x {{ item.quantity }}
+            {% endfor %}</td>
+    <td>{{ order.total }} zł</td>
+    <td>{{ order.address }}</td>
+    <td>{{ order.payment_method }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+    <div class="text-center">
+    <a class="btn btn-dark" style="color: white" href="{% url 'menu' %}">Back to menu</a>
+    </div>
+    <div style="color: white">.</div>
+{% endblock %}

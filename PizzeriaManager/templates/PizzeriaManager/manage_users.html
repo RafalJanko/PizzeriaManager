@@ -1,0 +1,17 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Edit profile{% endblock %}
+{% block content %}
+<div style="color: white">.</div>
+<form style="width: 10%; margin: auto" method="post">
+
+    {% csrf_token %}
+    {{ formset }}
+    <input type="submit">
+</form>
+    <div class="text-center">
+    <a class="btn btn-dark" style="color: white" href="{% url 'ViewUsers' %}">Back to user list</a>
+</div>
+    <div style="color: white">.</div>
+{% endblock %}

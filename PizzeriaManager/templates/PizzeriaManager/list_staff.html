@@ -1,0 +1,50 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}List of all orders{% endblock %}
+
+
+{% block content %}
+    <h2 class="text-center">Staff list</h2>
+    <table class="table">
+    <tr>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Profile</th>
+    </tr>
+
+{% for person in staff %}
+    <tr>
+    <td>{{ person.first_name }}</td>
+    <td>{{ person.last_name }}</td>
+    <td>{{ person.profile.function}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+<h2 class="text-center">Shift list</h2>
+
+    <table class="table">
+    <th>Name</th>
+    <th>Surname</th>
+    <th>date</th>
+    <th>Shift</th>
+    <th>Update</th>
+    <th>Delete</th>
+
+    {% for person in staff %}
+        {% for i in person.shift_set.values %}
+        <tr>
+        <td>{{ person.first_name }}</td>
+        <td>{{ person.last_name }}</td>
+        <td>{{ i.date }}</td>
+        <td>{{ i.shift }}</td>
+            <td><a href="{% url 'update_shift_manager' i.id %}">Update shift</a></td>
+            <td><a href="{% url 'delete_shift_manager' i.id %}">Delete shift</a></td>
+        {% endfor %}
+    {% endfor %}
+    </table>
+    <div class="text-center">
+    <a style="color: white" class="btn btn-dark" href="{% url 'create_shift' %}">Create new shift</a>
+    </div>
+    <div style="color: white">.</div>
+{% endblock %}

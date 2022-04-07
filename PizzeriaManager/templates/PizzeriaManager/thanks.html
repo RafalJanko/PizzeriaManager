@@ -1,0 +1,28 @@
+{% extends "PizzeriaManager/_base.html" %}
+
+{% block title %}Order Complete{% endblock %}
+
+{% block content %}
+
+
+<table style="width: 50%; margin: auto" class="table-borderless text-center">
+  <tr >
+    <th><h2>Thanks for your order, {{ user.customer.first_name }}!</h2></th>
+  </tr>
+  <tr>
+    <td>
+      <small>Order #{{ order_id }}</small>
+    </td>
+  </tr>
+  <tr>
+     <td>
+       <h5><em>We're on it!</em></h5>
+    </td>
+  </tr>
+  <tr><td>
+    <nav>
+      <a class="btn btn-dark" style="color: white" href="{% url 'menu' %}">Back to menu</a>
+    </nav>
+  </td></tr>
+</table>
+{% endblock %}

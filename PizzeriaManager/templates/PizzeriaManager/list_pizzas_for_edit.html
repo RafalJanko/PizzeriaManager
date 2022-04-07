@@ -1,0 +1,39 @@
+{% extends 'PizzeriaManager/_base.html' %}
+
+{% block title %}Edit/Create/Delete Pizzas{% endblock %}
+
+{% block content %}
+
+    <h3 class="text-center">Manage Ingredients</h3>
+    <div class="text-center">Create a new topping: <a style="color: white" class="btn btn-dark" href="{% url 'create_topping' %}">here</a></div>
+
+    <h3 class="text-center">Edit Ingredients:</h3>
+    <table class="table">
+    <tr>
+    <th>Topping ID</th>
+    <th>Topping Name</th>
+    <th>Delete Topping</th>
+    </tr>
+    {% for item in toppings %}
+    <tr>
+    <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td><a href="{% url 'delete_topping' item.id %}">Delete topping</a></td>
+        <td><a href="{% url 'update_topping' item.id %}">Update topping</a></td>
+    </tr>
+    {% endfor %}
+     </table>
+    <hr class="mt-2 mb-3"/>
+   <h3 class="text-center">Edit menu:</h3>
+    <div class="text-center">Create new pizza: <a style="color: white" class="btn btn-dark" href="{% url 'create_pizza' %}">here</a></div>
+  <ul style="width: 50%; margin: auto">
+  {% for pizza in pizzas %}
+      <li class="list-group-item">{{ pizza.id }}) <b>{{ pizza.name }}</b> - {{ pizza.price }} zł <a href="{% url 'delete_pizza' pizza.id%}">Delete pizza</a>
+      <a href="{% url 'update_pizza_details' pizza.id %}">Edit pizza</a></li>
+      {% for item in pizza.ingredients.all %}
+      <ul class="list-group-item">{{ item.name }}</ul>
+      {% endfor %}
+  {% endfor %}
+  </ul>
+
+{% endblock %}

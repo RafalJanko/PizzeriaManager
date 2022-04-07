@@ -1,0 +1,46 @@
+{% extends "PizzeriaManager/_base.html" %}
+
+{% block content %}
+
+{% load cart_tag %}
+
+
+<div class="list-group list-group-flush">
+<h2>Cart Details:</h2>
+    <div class="list-group-item">Total Items : {{ number_items }}</div>
+    {% for key,value in request.session.cart.items %}
+        {% if value.quantity > 1 %}
+    <li class="list-group-item"></b>Name:<b> {{value.name}} | <b>Price:</b> {{value.price}} | <b>Quantity:</b> {{value.quantity}}
+        <b>This pizza total:</b> {{ value.price|multiply:value.quantity }} | <a href="{% url 'item_clear' value.product_id %}">Remove
+            this position</a> | <a href="{% url 'item_increment' value.product_id %}">Add same pizza</a> |
+            <a href="{% url 'item_decrement' value.product_id %}">Subtract same pizza</a></li>
+            {% elif value.quantity == 1 %}
+    <li class="list-group-item"><b>Name:</b> {{value.name}} | <b>Price:</b> {{value.price}} | <b>Quantity:</b> {{value.quantity}}
+        <b>This pizza total:</b> {{ value.price|multiply:value.quantity }} | <a href="{% url 'item_clear' value.product_id %}">Remove
+            this position</a> | <a href="{% url 'item_increment' value.product_id %}">Add same pizza</a> |
+            <a href="{% url 'item_clear' value.product_id %}">Subtract same pizza</a></li>
+        {% endif %}
+    {% endfor %}
+    <div class="list-group-item">Cart total: {{ number }}zł</div>
+</div>
+
+    <div class="btn-group">
+    <form action="{% url 'checkout' %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-dark" type="submit">Checkout</button>
+        </form>
+        <div style="color: white">.</div>
+        <form action="{% url 'cart_clear' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="orderid" value="{{ order.id }}"/>
+            <button class="btn btn-dark" type="submit">Clear cart</button>
+        </form>
+        <div style="color: white">.</div>
+        <form action="{% url 'menu' %}" method="get">
+            {% csrf_token %}
+            <button class="btn btn-dark" type="submit">Back to menu</button>
+        </form>
+
+    </div>
+    <div style="color: white">.</div>
+{% endblock %}

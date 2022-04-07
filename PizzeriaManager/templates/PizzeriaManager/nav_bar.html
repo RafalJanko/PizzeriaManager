@@ -1,0 +1,32 @@
+<div>
+
+    {% if request.user.is_authenticated %}
+    Logged in as: {{ request.user.customer.username }}
+    {% endif %}
+    <a href="{% url 'logout' %}">Log out</a>
+    <a href="{% url 'update_details' request.user.customer.user_id %}">Update profile details</a>
+    <a href="{% url 'cart_detail' %}">Cart({{ number_items }})</a>
+    <a href="{% url 'cart_clear' %}">Clear Cart</a>
+    <a href="{% url 'menu' %}">Menu</a>
+    <a href="{% url 'orderlist' %}">Order history</a>
+    {% if request.user.profile.function == "Staff" %}
+    <a href="{% url 'request_leave' %}">Request leave</a>
+    <a href="{% url 'list_user_leaves' %}">Manage leaves</a>
+    {% endif %}
+    {% if request.user.profile.function == "HR" %}
+    <a href="{% url 'request_leave' %}">Request leave</a>
+    <a href="{% url 'list_user_leaves' %}">Manage leaves</a>
+    <a href="{% url 'ViewUsers' %}">Manage users</a>
+    <a href="{% url 'list_all_leaves' %}">Manage leaves</a>
+    {% endif %}
+    {% if request.user.profile.function == "Manager" %}
+    <a href="{% url 'request_leave' %}">Request leave</a>
+    <a href="{% url 'list_user_leaves' %}">Manage leaves</a>
+    <a href="{% url 'ViewUsers' %}">Manage users</a>
+    <a href="{% url 'list_all_leaves' %}">Manage leaves</a>
+    <a href="{% url 'list_orders_managers' %}">Manage orders</a>
+    <a href="{% url 'view_staff' %}">Manage staff</a>
+    <a href="{% url 'list_pizzas' %}">Manage pizzas</a>
+    {% endif %}
+    Cart total: {{ number }} zł
+</div>

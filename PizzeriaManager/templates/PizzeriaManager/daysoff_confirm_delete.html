@@ -1,0 +1,21 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Confirm delete?{% endblock %}
+
+{% block content %}
+
+    <form style="width: 30%; margin: auto" method="post">{% csrf_token %}
+    <p class="text-center">Are you sure you want to delete leave #{{ daysoff.id }}?</p>
+
+        <div class="text-center"><b>Requestor:</b> {{ daysoff.user.first_name }} {{ daysoff.user.last_name }}</div>
+        <div class="text-center"><b>Leave dates:</b> {{ daysoff.start_date }} {{ daysoff.end_date }}</div>
+        <div class="text-center"><b>Reason:</b> {{ daysoff.reason }}</div>
+
+    {{ form }}
+        <div class="text-center">
+    <input class="btn btn-dark" type="submit" value="Confirm">
+    </div>
+</form>
+<div style="color: white">.</div>
+{% endblock %}
