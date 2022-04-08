@@ -1,11 +1,8 @@
 import datetime
-
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms import DateInput
-from django.template.defaultfilters import date
-
 from PizzeriaManager.models import Customer, Shift, User
+
 
 class UpdateUserDetails(forms.ModelForm):
     username = forms.CharField(max_length=20)
@@ -18,13 +15,14 @@ class UpdateUserDetails(forms.ModelForm):
         model = Customer
         fields = ["username", "first_name", "last_name", "email", "phone_no"]
 
+
 class ShiftForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         date = cleaned_data.get('date')
 
         if date <= datetime.date.today():
-            raise ValidationError("Date cannot be in the past or current date.")
+            raise ValidationError("Date cannot be current or past date.")
 
         return cleaned_data
 

@@ -298,7 +298,7 @@ A functionality to view currently logged in's user past orders
 def ListOrderView(request):
 
     number, number_items, total = calculate_costam(request.session)
-    orders = Order.objects.filter(customer_id=request.user.id)
+    orders = Order.objects.filter(customer_id=request.user.id).order_by('-timestamp')
 
     return render(request, 'PizzeriaManager/orderlist.html',
                       {'number': number, 'number_items': number_items, 'total': total, "orders":orders})
@@ -354,7 +354,7 @@ Functionality to list all orders, created by all user
 class ListOrdersView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = ('PizzeriaManager.view_order')
     model = Order
-    queryset = Order.objects.all()
+    queryset = Order.objects.all().order_by('-timestamp')
     fields = '__all__'
     template_name = 'PizzeriaManager/managerorderlist.html'
     context_object_name = 'orders'
@@ -517,7 +517,7 @@ Functionality to list all leaves for a currently logged in user, whose role is c
 @permission_required('PizzeriaManager.view_shift')
 def ListLeaves(request):
     if request.method == "GET":
-        leaves = DaysOff.objects.filter(user_id=request.user.id)
+        leaves = DaysOff.objects.filter(user_id=request.user.id).order_by('-start_date')
         return render(request, "PizzeriaManager/listuserleaves.html", {"leaves":leaves})
 
 
@@ -531,7 +531,7 @@ Functionality to create all leave request for users whose role is changed to Sta
 @permission_required('PizzeriaManager.change_daysoff')
 def ListAllLeaves(request):
     if request.method == "GET":
-        leaves = DaysOff.objects.all()
+        leaves = DaysOff.objects.all().order_by('-start_date')
         return render(request, "PizzeriaManager/listallleaves.html", {"leaves": leaves})
 
 
