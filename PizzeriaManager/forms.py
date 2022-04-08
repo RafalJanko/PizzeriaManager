@@ -19,6 +19,15 @@ class UpdateUserDetails(forms.ModelForm):
         fields = ["username", "first_name", "last_name", "email", "phone_no"]
 
 class ShiftForm(forms.ModelForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        date = cleaned_data.get('date')
+
+        if date <= datetime.date.today():
+            raise ValidationError("Date cannot be in the past or current date.")
+
+        return cleaned_data
+
     class Meta:
         model = Shift
         fields = ['user', 'shift', 'date']
@@ -27,4 +36,6 @@ class ShiftForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(ShiftForm, self).__init__(*args, **kwargs)
         self.fields['user'].queryset = User.objects.filter(profile__function="Staff")
+
+
 
