@@ -1,6 +1,9 @@
+import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.sessions.models import Session
@@ -12,7 +15,7 @@ from PizzeriaManager.models import PizzaMenuItem, Customer, Order, OrderItem, Pr
 from django.shortcuts import render, redirect
 from cart.cart import Cart
 from PizzeriaManager.forms import ShiftForm
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, forms
 
 # Create your views here.
 
@@ -435,6 +438,12 @@ class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
+    def clean_to_date(self):
+        data = self.clean_to_date()['date']
+        if data < timezone.now().date():
+            raise forms.ValidationError("Date cannot be earlier than today")
+        return data
+
 
 '''
 Functionality accessible only to HR and Manager users.
@@ -490,9 +499,12 @@ def ConfirmLeave(request):
         end_date = request.POST.get("end")
         reason = request.POST.get("reason")
 
-        leave = DaysOff.objects.create(start_date=start_date, end_date=end_date, reason=reason, user_id=user_id)
+        if start_date > end_date:
+            return HttpResponse("Start date cannot be later than end date")
+        else:
+            leave = DaysOff.objects.create(start_date=start_date, end_date=end_date, reason=reason, user_id=user_id)
 
-        return render(request, "PizzeriaManager/confirm_leave_request.html")
+            return render(request, "PizzeriaManager/confirm_leave_request.html")
 
 
 '''
