@@ -20,7 +20,7 @@ from PizzeriaManager.views import index, login_view, register_view, cart_add, it
     cart_clear, cart_detail, checkout, thanks, ListOrderView, ViewUsersView, UpdateUserView, manage_users, ListOrdersView, \
     UpdateOrderView, DeleteOrderView, view_staff, ShiftCreateView, UpdateShiftView, DeleteShiftView, DeleteUserView, RequestLeave,\
     ConfirmLeave, ListLeaves, ListAllLeaves, DeleteLeaveView, UpdateLeaveView, UpdateUserDetails, ToppingCreateView, listPizzas,\
-    ToppingDeleteView, UpdateToppingView, DeletePizzaView, UpdatPizzaDetails, CreatePizzaView
+    ToppingDeleteView, UpdateToppingView, DeletePizzaView, UpdatPizzaDetails, CreatePizzaView, ListShifts
 
 
 
@@ -54,6 +54,7 @@ urlpatterns = [
     path('request_leave', RequestLeave, name='request_leave'),
     path('confirm_leave', ConfirmLeave, name='confirm_leave'),
     path('list_user_leaves', ListLeaves, name='list_user_leaves'),
+    path('list_user_shifts', ListShifts, name='list_user_shifts'),
     path('list_all_leaves', ListAllLeaves, name='list_all_leaves'),
     path('leave_delete/<int:pk>', DeleteLeaveView.as_view(), name='delete_leave'),
     path('leave_update/<int:pk>', UpdateLeaveView.as_view(), name='update_leave'),

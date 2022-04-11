@@ -44,6 +44,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
                                 <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View leave history</a></li>
+                                <li><a class="dropdown-item" href="{% url 'list_user_shifts' %}">View user shifts</a></li>
                             </ul>
                         </li>
                         {% endif %}
@@ -51,6 +52,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">HR tab</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'list_user_shifts' %}">View user shifts</a></li>
                                 <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
                                 <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View your leave history</a></li>
                                 <li><hr class="dropdown-divider" /></li>
@@ -63,6 +65,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manager tab</a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url 'list_user_shifts' %}">View user shifts</a></li>
                                 <li><a class="dropdown-item" href="{% url 'request_leave' %}">Request leave</a></li>
                                 <li><a class="dropdown-item" href="{% url 'list_user_leaves' %}">View your leave history</a></li>
                                 <li><hr class="dropdown-divider" /></li>

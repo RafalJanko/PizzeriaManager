@@ -1,0 +1,27 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Your leaves {% endblock %}
+
+
+{% block content %}
+
+    <h2 class="text-center">Your Shifts:</h2>
+
+    <table class="table">
+    <tr>
+    <th>Shift id</th>
+    <th>Shift date</th>
+    <th>Shift hours</th>
+    </tr>
+    {% for shift in shifts %}
+    <tr>
+
+        <td>{{ shift.id }}</td>
+        <td>{{ shift.date}}</td>
+        <td>{{ shift.shift}}</td>
+
+    {% endfor %}
+    </tr>
+    </table>
+{% endblock %}

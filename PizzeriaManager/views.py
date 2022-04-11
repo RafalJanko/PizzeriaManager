@@ -522,6 +522,20 @@ def ListLeaves(request):
 
 
 '''
+Functionality accessible only to Staff, HR and Manager users.
+Functionality to list all shifts for a currently logged in user, whose role is changed to Staff, HR or Managers.
+'''
+
+
+@login_required(login_url="/login")
+@permission_required('PizzeriaManager.view_shift')
+def ListShifts(request):
+    if request.method == "GET":
+        shifts = Shift.objects.filter(user_id=request.user.id).order_by('-date')
+        return render(request, "PizzeriaManager/listusershifts.html", {"shifts":shifts})
+
+
+'''
 Functionality accessible only to HR and Manager users.
 Functionality to create all leave request for users whose role is changed to Staff, HR or Managers. (and update the status - accept/delete them)
 '''
