@@ -91,7 +91,7 @@ class SigninTest(TestCase):
         user = authenticate(username='test', password='wrong')
         self.assertFalse(user is not None and user.is_authenticated)
 ```
-##Running the project
+## Running the project
 
 *clone the repo from gGitHub
 
