@@ -93,7 +93,7 @@ class SigninTest(TestCase):
 ```
 ## Running the project
 
-*clone the repo from gGitHub
+* clone the repository from GitHub
 
 Using the console naviagte to the cloned repository and run the following commands"
 
