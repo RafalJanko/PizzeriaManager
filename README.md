@@ -91,6 +91,18 @@ class SigninTest(TestCase):
         user = authenticate(username='test', password='wrong')
         self.assertFalse(user is not None and user.is_authenticated)
 ```
+##Running the project
+
+*clone the repo from gGitHub
+
+Using the console naviagte to the cloned repository and run the following commands"
+
+*pip install virtualenv.
+*virtualenv “name as you like”
+*source env/bin/activate.
+*pip install django.
+*pip install -r requirement.txt.
+*python manage.py runserver.
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
