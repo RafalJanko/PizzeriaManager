@@ -25,7 +25,7 @@ function that calculates the number all items in a customer's cart, it's total a
 This has to be used in a view in order to see the current number of items in a cart, while using different views.
 '''
 
-def calculate_costam(session):
+def calculate_cart_items_and_total_amount(session):
     total = []
     total_items = []
     number = 0
@@ -86,7 +86,7 @@ def register_view(request):
         user.first_name = fname
         user.last_name = lname
         id = user.id
-        c = Customer.objects.create(first_name=fname, last_name=lname, username=username, password=password, email=email, phone_no=pnumber, user_id=id)
+        c = Customer.objects.create(first_name=fname, last_name=lname, username=username, email=email, phone_no=pnumber, user_id=id)
         login(request, user)
         prof = Profile.objects.create(function="Customer", user_id=id)
         permission = 3
@@ -228,7 +228,7 @@ Django-cart functionality that allows a user to view all items in their cart, to
 @login_required(login_url="/login")
 @permission_required('PizzeriaManager.view_menu')
 def cart_detail(request):
-    number, number_items, total = calculate_costam(request.session)
+    number, number_items, total = calculate_cart_items_and_total_amount(request.session)
     return render(request, 'PizzeriaManager/cart.html', {'number': number, 'number_items':number_items})
 
 
@@ -247,7 +247,7 @@ A functionality that redirects user to a form that allows them to fill in the de
 def checkout(request):
     if request.method == "POST":
 
-        number, number_items, total = calculate_costam(request.session)
+        number, number_items, total = calculate_cart_items_and_total_amount(request.session)
 
         return render(request, 'PizzeriaManager/checkout.html', {'number': number, 'number_items':number_items, 'total':total})
 
@@ -269,7 +269,7 @@ def thanks(request):
         payment_method = request.POST.get("paymenttype")
         address = request.POST.get("address")
 
-        number, number_items, total = calculate_costam(request.session)
+        number, number_items, total = calculate_cart_items_and_total_amount(request.session)
 
         o = Order.objects.create(customer_id=user, total=number, payment_method=payment_method, address=address)
         order_id = o.id
@@ -297,7 +297,7 @@ A functionality to view currently logged in's user past orders
 @login_required(redirect_field_name='/login')
 def ListOrderView(request):
 
-    number, number_items, total = calculate_costam(request.session)
+    number, number_items, total = calculate_cart_items_and_total_amount(request.session)
     orders = Order.objects.filter(customer_id=request.user.id).order_by('-timestamp')
 
     return render(request, 'PizzeriaManager/orderlist.html',

@@ -17,6 +17,11 @@ class UpdateUserDetails(forms.ModelForm):
 
 
 class ShiftForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(ShiftForm, self).__init__(*args, **kwargs)
+        self.fields['user'].queryset = User.objects.filter(profile__function="Staff")
+
     def clean(self):
         cleaned_data = super().clean()
         date = cleaned_data.get('date')
@@ -30,10 +35,7 @@ class ShiftForm(forms.ModelForm):
         model = Shift
         fields = ['user', 'shift', 'date']
 
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user')
-        super(ShiftForm, self).__init__(*args, **kwargs)
-        self.fields['user'].queryset = User.objects.filter(profile__function="Staff")
+
 
 
 

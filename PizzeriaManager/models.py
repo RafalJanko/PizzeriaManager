@@ -4,8 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 '''
-Basic profile model attached to user. Based on this function the base.html shows the navbar and different functionalities
+Basic profile model related to :model:`auth.User`.
 '''
+
 
 class Profile(models.Model):
     function_choices = [
@@ -19,10 +20,9 @@ class Profile(models.Model):
     function = models.CharField(max_length=10, choices=function_choices, default="Customer")
 
 
-'''
-Basic shift model used to create "shifts" for all user types, apart from a regular customer.
-The idea behind the model is that Manager or HR users are able to create working shifts for "Staff", "Manager" and "HR" users.
-'''
+"""
+Stores a single Shift entry, related to :model:`auth.User`.
+"""
 
 class Shift(models.Model):
     shift_choices = [
@@ -37,9 +37,9 @@ class Shift(models.Model):
     shift = models.CharField(max_length=50, choices=shift_choices)
 
 
-'''
-Daysoff model is used by all users apart from Customer users, to indicate in which days and for which reason a person would like to request a leave.
-'''
+"""
+Stores a single Day-off entry, related to :model:`auth.User`.
+"""
 
 
 class DaysOff(models.Model):
@@ -63,9 +63,9 @@ class DaysOff(models.Model):
     status = models.CharField(max_length=30, choices=leave_status, default="Pending")
 
 
-'''
-Customer model is created for each user so ensure that all types of users (Managers, HR, Staff, Customer) can use the functionality to order the pizza from the website.
-'''
+"""
+Stores a single profile entry for each registered user, related to :model:`auth.User`.
+"""
 
 
 class Customer(models.Model):
@@ -74,17 +74,16 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     username = models.CharField(max_length=30)
-    password = models.CharField(max_length=10)
-    email = models.CharField(max_length=64)
+    email = models.EmailField(max_length=64)
     phone_no = models.CharField(max_length=12)
 
     def __str__(self):
         return f"{self.username}({self.customer_id})"
 
 
-'''
-Menu model used to create the basic pizza item and establishing it's name and price
-'''
+"""
+Stores a single Menu entry.
+"""
 
 
 class Menu(models.Model):
@@ -96,9 +95,9 @@ class Menu(models.Model):
         return f"{self.item_name} - {self.item_price} zł"
 
 
-'''
-PizzaIngredient - all toppings or items that go on pizza, that are listed on the menu. Relation makes sure that an item is assigned to a given pizza.
-'''
+"""
+Stores a single Pizza ingredient entry.
+"""
 
 
 class PizzaIngredient(models.Model):
@@ -108,9 +107,10 @@ class PizzaIngredient(models.Model):
         return str(self.name)
 
 
-'''
-All details related to a pizza, such as it's image, ingredients, price, size, name etc.
-'''
+"""
+Stores a single Pizza Menu Item entry, related to :model:`PizzaIngredient`.
+"""
+
 
 class PizzaMenuItem(models.Model):
     name = models.CharField(max_length=255)
@@ -127,21 +127,10 @@ class PizzaMenuItem(models.Model):
     def __str__(self):
         return str(self.name)
 
-# '''
-# Address - for future use to indicate a "default address for each customer (not is use in current version).
-# '''
-#
-# class Address(models.Model):
-#     full = models.CharField(max_length=150)
-#
-#     def __str__(self):
-#         return str(self.full)
 
-
-'''
-The total order a Customer can make - the confirmation shown to user is created based on this model.
-The Model item is created when a customer proceeeds to the "checkout'
-'''
+"""
+Stores an Order entry, related to :model:`user.Customer`.
+"""
 
 
 class Order(models.Model):
@@ -159,9 +148,10 @@ class Order(models.Model):
     address = models.CharField(max_length=250)
 
 
-'''
-OrderItems is a model that makes it easy to assing each pizza to an order made by a customer.
-'''
+"""
+Stores a single ordered item entry, related to :model:`PizzaIngredient` and model:`Order`.
+"""
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
