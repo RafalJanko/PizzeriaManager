@@ -35,8 +35,8 @@ App has a set of tests to verify that all functionalities are running. The tests
 
 * tests_models_signin.py - tests the authorization/authentication as well as all models and it's option to create/update/delete
 
-```python
 Example tests:
+```python
 
 @pytest.mark.django_db
 def test_update_shift_logged_in(user, order, customer, shift):
