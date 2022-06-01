@@ -28,7 +28,7 @@
     <div class="text-center">Create new pizza: <a style="color: white" class="btn btn-dark" href="{% url 'create_pizza' %}">here</a></div>
   <ul style="width: 50%; margin: auto">
   {% for pizza in pizzas %}
-      <li class="list-group-item">{{ pizza.id }}) <b>{{ pizza.name }}</b> - {{ pizza.price }} <a href="{% url 'delete_pizza' pizza.id%}">Delete pizza</a>
+      <li class="list-group-item">{{ pizza.id }}) <b>{{ pizza.name }}</b> - {{ pizza.price }} zł <a href="{% url 'delete_pizza' pizza.id%}">Delete pizza</a>
       <a href="{% url 'update_pizza_details' pizza.id %}">Edit pizza</a></li>
       {% for item in pizza.ingredients.all %}
       <ul class="list-group-item">{{ item.name }}</ul>

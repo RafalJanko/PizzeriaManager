@@ -1,0 +1,18 @@
+{% extends "PizzeriaManager/_base.html" %}
+
+{% block title %}Table booking confirmed{% endblock %}
+
+{% block content %}
+    <div style="color: white">.</div>
+    <div class="text-center">
+    <div>Thank you for submitting your table booking request, {{ user.first_name }}!</div>
+    <div>The current status of your request is "Pending".</div>
+    <div>The status will change once the manager verifies your request.</div>
+    <div>You will be notified about the change via email.</div>
+    <div style="color: white">.</div>
+    <a style="color: white" class="btn btn-dark" href="{% url 'index' %}">Back to main menu</a>
+    <div style="color: white">.</div>
+</div>
+
+
+{% endblock %}

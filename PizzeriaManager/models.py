@@ -1,12 +1,14 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 
 '''
-Basic profile model related to :model:`auth.User`.
+Basic profile model attached to user. Based on this function the base.html shows the navbar and different functionalities
 '''
-
 
 class Profile(models.Model):
     function_choices = [
@@ -20,9 +22,10 @@ class Profile(models.Model):
     function = models.CharField(max_length=10, choices=function_choices, default="Customer")
 
 
-"""
-Stores a single Shift entry, related to :model:`auth.User`.
-"""
+'''
+Basic shift model used to create "shifts" for all user types, apart from a regular customer.
+The idea behind the model is that Manager or HR users are able to create working shifts for "Staff", "Manager" and "HR" users.
+'''
 
 class Shift(models.Model):
     shift_choices = [
@@ -37,9 +40,9 @@ class Shift(models.Model):
     shift = models.CharField(max_length=50, choices=shift_choices)
 
 
-"""
-Stores a single Day-off entry, related to :model:`auth.User`.
-"""
+'''
+Daysoff model is used by all users apart from Customer users, to indicate in which days and for which reason a person would like to request a leave.
+'''
 
 
 class DaysOff(models.Model):
@@ -63,9 +66,9 @@ class DaysOff(models.Model):
     status = models.CharField(max_length=30, choices=leave_status, default="Pending")
 
 
-"""
-Stores a single profile entry for each registered user, related to :model:`auth.User`.
-"""
+'''
+Customer model is created for each user so ensure that all types of users (Managers, HR, Staff, Customer) can use the functionality to order the pizza from the website.
+'''
 
 
 class Customer(models.Model):
@@ -74,16 +77,17 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     username = models.CharField(max_length=30)
-    email = models.EmailField(max_length=64)
+    password = models.CharField(max_length=10)
+    email = models.CharField(max_length=64)
     phone_no = models.CharField(max_length=12)
 
     def __str__(self):
         return f"{self.username}({self.customer_id})"
 
 
-"""
-Stores a single Menu entry.
-"""
+'''
+Menu model used to create the basic pizza item and establishing it's name and price
+'''
 
 
 class Menu(models.Model):
@@ -95,9 +99,9 @@ class Menu(models.Model):
         return f"{self.item_name} - {self.item_price} zł"
 
 
-"""
-Stores a single Pizza ingredient entry.
-"""
+'''
+PizzaIngredient - all toppings or items that go on pizza, that are listed on the menu. Relation makes sure that an item is assigned to a given pizza.
+'''
 
 
 class PizzaIngredient(models.Model):
@@ -107,10 +111,9 @@ class PizzaIngredient(models.Model):
         return str(self.name)
 
 
-"""
-Stores a single Pizza Menu Item entry, related to :model:`PizzaIngredient`.
-"""
-
+'''
+All details related to a pizza, such as it's image, ingredients, price, size, name etc.
+'''
 
 class PizzaMenuItem(models.Model):
     name = models.CharField(max_length=255)
@@ -127,10 +130,21 @@ class PizzaMenuItem(models.Model):
     def __str__(self):
         return str(self.name)
 
+# '''
+# Address - for future use to indicate a "default address for each customer (not is use in current version).
+# '''
+#
+# class Address(models.Model):
+#     full = models.CharField(max_length=150)
+#
+#     def __str__(self):
+#         return str(self.full)
 
-"""
-Stores an Order entry, related to :model:`user.Customer`.
-"""
+
+'''
+The total order a Customer can make - the confirmation shown to user is created based on this model.
+The Model item is created when a customer proceeeds to the "checkout'
+'''
 
 
 class Order(models.Model):
@@ -148,10 +162,9 @@ class Order(models.Model):
     address = models.CharField(max_length=250)
 
 
-"""
-Stores a single ordered item entry, related to :model:`PizzaIngredient` and model:`Order`.
-"""
-
+'''
+OrderItems is a model that makes it easy to assing each pizza to an order made by a customer.
+'''
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
@@ -170,3 +183,11 @@ class OrderItem(models.Model):
         blank=True,
         related_name='pizza'
     )
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    booking_name = models.CharField(max_length=200)
+    booking_date = models.DateField(default=timezone.now)
+    booking_time = models.TimeField()
+    booking_no_of_people = models.IntegerField()
+

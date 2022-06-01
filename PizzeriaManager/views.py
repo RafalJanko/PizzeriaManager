@@ -1,9 +1,6 @@
-import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib.sessions.models import Session
@@ -11,11 +8,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.models import User
 from django.views.generic import UpdateView, ListView, DeleteView, CreateView
-from PizzeriaManager.models import PizzaMenuItem, Customer, Order, OrderItem, Profile, Shift, DaysOff, PizzaIngredient
+from PizzeriaManager.models import PizzaMenuItem, Customer, Order, OrderItem, Profile, Shift, DaysOff, PizzaIngredient, Booking
 from django.shortcuts import render, redirect
 from cart.cart import Cart
-from PizzeriaManager.forms import ShiftForm
-from django.forms import inlineformset_factory, forms
+from PizzeriaManager.forms import ShiftForm, BookingForm
+from django.forms import inlineformset_factory
 
 # Create your views here.
 
@@ -25,7 +22,7 @@ function that calculates the number all items in a customer's cart, it's total a
 This has to be used in a view in order to see the current number of items in a cart, while using different views.
 '''
 
-def calculate_cart_items_and_total_amount(session):
+def calculate_costam(session):
     total = []
     total_items = []
     number = 0
@@ -86,7 +83,7 @@ def register_view(request):
         user.first_name = fname
         user.last_name = lname
         id = user.id
-        c = Customer.objects.create(first_name=fname, last_name=lname, username=username, email=email, phone_no=pnumber, user_id=id)
+        c = Customer.objects.create(first_name=fname, last_name=lname, username=username, password=password, email=email, phone_no=pnumber, user_id=id)
         login(request, user)
         prof = Profile.objects.create(function="Customer", user_id=id)
         permission = 3
@@ -228,7 +225,7 @@ Django-cart functionality that allows a user to view all items in their cart, to
 @login_required(login_url="/login")
 @permission_required('PizzeriaManager.view_menu')
 def cart_detail(request):
-    number, number_items, total = calculate_cart_items_and_total_amount(request.session)
+    number, number_items, total = calculate_costam(request.session)
     return render(request, 'PizzeriaManager/cart.html', {'number': number, 'number_items':number_items})
 
 
@@ -247,7 +244,7 @@ A functionality that redirects user to a form that allows them to fill in the de
 def checkout(request):
     if request.method == "POST":
 
-        number, number_items, total = calculate_cart_items_and_total_amount(request.session)
+        number, number_items, total = calculate_costam(request.session)
 
         return render(request, 'PizzeriaManager/checkout.html', {'number': number, 'number_items':number_items, 'total':total})
 
@@ -269,7 +266,7 @@ def thanks(request):
         payment_method = request.POST.get("paymenttype")
         address = request.POST.get("address")
 
-        number, number_items, total = calculate_cart_items_and_total_amount(request.session)
+        number, number_items, total = calculate_costam(request.session)
 
         o = Order.objects.create(customer_id=user, total=number, payment_method=payment_method, address=address)
         order_id = o.id
@@ -297,8 +294,8 @@ A functionality to view currently logged in's user past orders
 @login_required(redirect_field_name='/login')
 def ListOrderView(request):
 
-    number, number_items, total = calculate_cart_items_and_total_amount(request.session)
-    orders = Order.objects.filter(customer_id=request.user.id).order_by('-timestamp')
+    number, number_items, total = calculate_costam(request.session)
+    orders = Order.objects.filter(customer_id=request.user.id)
 
     return render(request, 'PizzeriaManager/orderlist.html',
                       {'number': number, 'number_items': number_items, 'total': total, "orders":orders})
@@ -354,7 +351,7 @@ Functionality to list all orders, created by all user
 class ListOrdersView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = ('PizzeriaManager.view_order')
     model = Order
-    queryset = Order.objects.all().order_by('-timestamp')
+    queryset = Order.objects.all()
     fields = '__all__'
     template_name = 'PizzeriaManager/managerorderlist.html'
     context_object_name = 'orders'
@@ -438,12 +435,6 @@ class ShiftCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def clean_to_date(self):
-        data = self.clean_to_date()['date']
-        if data < timezone.now().date():
-            raise forms.ValidationError("Date cannot be earlier than today")
-        return data
-
 
 '''
 Functionality accessible only to HR and Manager users.
@@ -499,12 +490,9 @@ def ConfirmLeave(request):
         end_date = request.POST.get("end")
         reason = request.POST.get("reason")
 
-        if start_date > end_date:
-            return HttpResponse("Start date cannot be later than end date")
-        else:
-            leave = DaysOff.objects.create(start_date=start_date, end_date=end_date, reason=reason, user_id=user_id)
+        leave = DaysOff.objects.create(start_date=start_date, end_date=end_date, reason=reason, user_id=user_id)
 
-            return render(request, "PizzeriaManager/confirm_leave_request.html")
+        return render(request, "PizzeriaManager/confirm_leave_request.html")
 
 
 '''
@@ -517,22 +505,8 @@ Functionality to list all leaves for a currently logged in user, whose role is c
 @permission_required('PizzeriaManager.view_shift')
 def ListLeaves(request):
     if request.method == "GET":
-        leaves = DaysOff.objects.filter(user_id=request.user.id).order_by('-start_date')
+        leaves = DaysOff.objects.filter(user_id=request.user.id)
         return render(request, "PizzeriaManager/listuserleaves.html", {"leaves":leaves})
-
-
-'''
-Functionality accessible only to Staff, HR and Manager users.
-Functionality to list all shifts for a currently logged in user, whose role is changed to Staff, HR or Managers.
-'''
-
-
-@login_required(login_url="/login")
-@permission_required('PizzeriaManager.view_shift')
-def ListShifts(request):
-    if request.method == "GET":
-        shifts = Shift.objects.filter(user_id=request.user.id).order_by('-date')
-        return render(request, "PizzeriaManager/listusershifts.html", {"shifts":shifts})
 
 
 '''
@@ -545,7 +519,7 @@ Functionality to create all leave request for users whose role is changed to Sta
 @permission_required('PizzeriaManager.change_daysoff')
 def ListAllLeaves(request):
     if request.method == "GET":
-        leaves = DaysOff.objects.all().order_by('-start_date')
+        leaves = DaysOff.objects.all()
         return render(request, "PizzeriaManager/listallleaves.html", {"leaves": leaves})
 
 
@@ -679,3 +653,23 @@ class UpdatPizzaDetails(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     model = PizzaMenuItem
     fields = '__all__'
     success_url = reverse_lazy('list_pizzas')
+
+
+
+@login_required(login_url="/login")
+def CreateBookingView(request):
+    if request.method == "GET":
+        return render(request, "PizzeriaManager/request_booking.html")
+
+
+@login_required(login_url="/login")
+def ConfirmBookingView(request):
+    if request.method == "POST":
+        user = request.user
+        booking_name = request.POST.get("booking_name")
+        booking_time = request.POST.get("booking_time")
+        booking_no_of_people = request.POST.get("booking_no_of_people")
+
+        booking = Booking.objects.create(user=user, booking_name=booking_name, booking_time=booking_time, booking_no_of_people=booking_no_of_people)
+
+        return render(request, "PizzeriaManager/confirm_booking.html")

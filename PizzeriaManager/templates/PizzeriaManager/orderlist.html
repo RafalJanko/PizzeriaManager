@@ -24,7 +24,7 @@
        <td> {% for item in order.items.all %}
         {{ item.pizza_name }} x {{ item.quantity }}
             {% endfor %}</td>
-    <td>{{ order.total }}</td>
+    <td>{{ order.total }} zł</td>
     <td>{{ order.address }}</td>
     <td>{{ order.payment_method }}</td>
     </tr>

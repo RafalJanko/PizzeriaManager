@@ -1,0 +1,34 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Request table booking{% endblock %}
+
+{% block content %}
+
+    <div class="text-center">Request table booking for {{ user.first_name }} {{ user.last_name }}</div>
+<div style="color: white">a</div>
+<form style="width: 15%; margin: auto" action="{% url 'confirm_booking' %}" method="post">
+<div class="form-group">
+    Booking date:
+    <input class="form-control" type="date" id="booking_date" name="booking_date">
+</div>
+    <div class="form-group">
+    Booking time:
+    <input class="form-control" type="time" id="booking_time" name="booking_time">
+    </div>
+    <div class="form-group">
+    Name:
+    <input class="form-control" type="text" id="booking_name" name="booking_name">
+    </div>
+    <div class="form-group">
+    Number of people:
+    <input class="form-control" type="number" id="booking_no_of_people" name="booking_no_of_people">
+    </div>
+
+        <div style="color: white">a</div>
+    </div>
+    {% csrf_token %}
+    <button class="btn btn-dark text-center" style="margin:0 80px" type="submit">Request table booking</button>
+    </form>
+<div style="color: white">a</div>
+{% endblock %}

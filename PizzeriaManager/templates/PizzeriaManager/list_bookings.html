@@ -1,0 +1,38 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}List of table bookings {% endblock %}
+
+
+{% block content %}
+
+
+    <h2 class="text-center">All table bookings</h2>
+
+    <table class="table">
+    <tr>
+    <th>Leave id</th>
+    <th>Requestor</th>
+    <th>Functions</th>
+    <th>Leave start date</th>
+    <th>Leave end date</th>
+    <th>Leave reason</th>
+    <th>Leave status</th>
+    </tr>
+    {% for leave in leaves %}
+    <tr>
+
+        <td>{{ leave.id }}</td>
+        <td>{{ leave.user.first_name }} {{ leave.user.last_name }}</td>
+        <td>{{ leave.user.profile.function }}</td>
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.reason }}</td>
+        <td>{{ leave.status }}</td>
+        <td><a href="{% url 'delete_leave' leave.id %}">Delete leave</a></td>
+        <td><a href="{% url 'update_leave' leave.id %}">Update leave</a></td>
+    {% endfor %}
+    </tr>
+    </table>
+
+{% endblock %}
