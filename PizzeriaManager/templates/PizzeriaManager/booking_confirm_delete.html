@@ -1,0 +1,16 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Confirm delete?{% endblock %}
+
+{% block content %}
+
+    <form style="width: 30%; margin: auto" method="post">{% csrf_token %}
+    <p class="text-center">Are you sure you want to delete booking nr #{{ booking.id }}?</p>
+    {{ form }}
+        <div class="text-center">
+    <input class="btn btn-dark" type="submit" value="Confirm">
+    </div>
+</form>
+<div style="color: white">.</div>
+{% endblock %}

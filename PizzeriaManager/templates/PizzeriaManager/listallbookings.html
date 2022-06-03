@@ -1,0 +1,36 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}List of all bookings {% endblock %}
+
+
+{% block content %}
+
+
+    <h2 class="text-center">All bookings</h2>
+
+    <table class="table">
+    <tr>
+    <th>Booking id</th>
+    <th>Requestor</th>
+    <th>Booking date</th>
+    <th>Booking time</th>
+    <th>Booking status</th>
+    <th>Delete booking</th>
+    <th>Update booking</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.user.first_name }} {{ booking.user.last_name }}</td>
+        <td>{{ booking.booking_date }}</td>
+        <td>{{ booking.booking_time }}</td>
+        <td>{{ booking.status }}</td>
+        <td><a href="{% url 'delete_booking' booking.id %}">Delete booking</a></td>
+        <td><a href="{% url 'update_booking' booking.id %}">Update booking</a></td>
+    {% endfor %}
+    </tr>
+    </table>
+
+{% endblock %}

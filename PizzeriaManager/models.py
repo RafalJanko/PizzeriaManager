@@ -185,9 +185,17 @@ class OrderItem(models.Model):
     )
 
 class Booking(models.Model):
+    booking_status = [
+        ("Pending", "Pending"),
+        ("Approved", "Approved"),
+        ("Cancelled", "Cancelled"),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booking_name = models.CharField(max_length=200)
     booking_date = models.DateField(default=timezone.now)
     booking_time = models.TimeField()
     booking_no_of_people = models.IntegerField()
+    status = models.CharField(max_length=30, choices=booking_status, default="Pending")
+
 

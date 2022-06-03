@@ -655,6 +655,13 @@ class UpdatPizzaDetails(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     success_url = reverse_lazy('list_pizzas')
 
 
+@login_required(login_url="/login")
+@permission_required('PizzeriaManager.change_daysoff')
+def ListAllBookings(request):
+    if request.method == "GET":
+        bookings = Booking.objects.all()
+        return render(request, "PizzeriaManager/listallbookings.html", {"bookings": bookings})
+
 
 @login_required(login_url="/login")
 def CreateBookingView(request):
@@ -673,3 +680,16 @@ def ConfirmBookingView(request):
         booking = Booking.objects.create(user=user, booking_name=booking_name, booking_time=booking_time, booking_no_of_people=booking_no_of_people)
 
         return render(request, "PizzeriaManager/confirm_booking.html")
+
+
+class DeleteBookingView(LoginRequiredMixin, DeleteView):
+    model = Booking
+    success_url = reverse_lazy('list_all_bookings')
+
+
+
+class UpdateBookingView(LoginRequiredMixin, UpdateView):
+    model = Booking
+    fields = '__all__'
+    success_url = reverse_lazy('list_all_bookings')
+    template_name = 'PizzeriaManager/form.html'
