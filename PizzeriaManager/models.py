@@ -130,16 +130,6 @@ class PizzaMenuItem(models.Model):
     def __str__(self):
         return str(self.name)
 
-# '''
-# Address - for future use to indicate a "default address for each customer (not is use in current version).
-# '''
-#
-# class Address(models.Model):
-#     full = models.CharField(max_length=150)
-#
-#     def __str__(self):
-#         return str(self.full)
-
 
 '''
 The total order a Customer can make - the confirmation shown to user is created based on this model.
@@ -183,6 +173,13 @@ class OrderItem(models.Model):
         blank=True,
         related_name='pizza'
     )
+
+
+'''
+Booking model - related with many to one to User.
+Used in the table booking functionality.
+'''
+
 
 class Booking(models.Model):
     booking_status = [

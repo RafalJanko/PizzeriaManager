@@ -655,6 +655,12 @@ class UpdatPizzaDetails(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
     success_url = reverse_lazy('list_pizzas')
 
 
+'''
+Functionality accessible only to HR and Manager users.
+Functionality to list all table bookings, with links to change and delete them.
+'''
+
+
 @login_required(login_url="/login")
 @permission_required('PizzeriaManager.change_daysoff')
 def ListAllBookings(request):
@@ -663,11 +669,21 @@ def ListAllBookings(request):
         return render(request, "PizzeriaManager/listallbookings.html", {"bookings": bookings})
 
 
+'''
+Functionality accessible to everyone
+Functionality to request a table booking.
+'''
+
 @login_required(login_url="/login")
 def CreateBookingView(request):
     if request.method == "GET":
         return render(request, "PizzeriaManager/request_booking.html")
 
+
+'''
+Functionality accessible to everyone.
+Functionality to view the confirmation of a requested booking. This view creates a db entry of the booking.
+'''
 
 @login_required(login_url="/login")
 def ConfirmBookingView(request):
@@ -682,10 +698,21 @@ def ConfirmBookingView(request):
         return render(request, "PizzeriaManager/confirm_booking.html")
 
 
+'''
+Functionality accessible only to HR and Manager users.
+Functionality to delete bookings (booking model instances), from the "list all bookings view".
+'''
+
+
 class DeleteBookingView(LoginRequiredMixin, DeleteView):
     model = Booking
     success_url = reverse_lazy('list_all_bookings')
 
+
+'''
+Functionality accessible only to HR and Manager users.
+Functionality to update bookings (booking model instances), from the "list all bookings view".
+'''
 
 
 class UpdateBookingView(LoginRequiredMixin, UpdateView):
