@@ -606,3 +606,22 @@ def test_create_pizza_not_logged_in():
     assert response.status_code == 302
 
 
+@pytest.mark.django_db
+def test_create_booking_logged_in(user, customer):
+    client = Client()
+    client.force_login(user)
+    url = reverse('create_booking')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_create_booking_not_logged_in():
+    client = Client()
+    url = reverse('create_booking')
+    response = client.get(url)
+    assert response.status_code == 302
+    url = reverse('index')
+    assert response.url.startswith(url)
+
+
