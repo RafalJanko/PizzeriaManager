@@ -625,3 +625,17 @@ def test_create_booking_not_logged_in():
     assert response.url.startswith(url)
 
 
+@pytest.mark.django_db
+def test_update_booking_logged_in(user, customer, booking):
+    client = Client()
+    client.force_login(user)
+    response = client.get('/booking_update/1')
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_update_booking_detail_not_logged_in():
+    client = Client()
+    url = '/booking_update/1'
+    response = client.get(url)
+    assert response.status_code == 302

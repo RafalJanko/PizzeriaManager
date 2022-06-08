@@ -1,9 +1,11 @@
+import datetime
+
 import pytest
-from datetime import date
+from datetime import date, time
 
 from django.contrib.auth.models import User
 
-from PizzeriaManager.models import User, Customer, PizzaMenuItem, PizzaIngredient, Profile, Order, OrderItem, DaysOff, Shift
+from PizzeriaManager.models import User, Customer, PizzaMenuItem, PizzaIngredient, Profile, Order, OrderItem, DaysOff, Shift, Booking
 
 '''
 Fixtures for PyTest - used in the tests.py file to create "dummy" data.
@@ -76,6 +78,10 @@ def ingredients():
 @pytest.fixture
 def pizza(ingredient):
     PizzaMenuItem.objects.create(name="test", category="Pizza", img="test", image="temp", price=15, size="30")
+
+@pytest.fixture
+def booking():
+    Booking.objects.create(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
 
 @pytest.fixture
 def pizzas():
