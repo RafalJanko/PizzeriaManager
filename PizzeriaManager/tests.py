@@ -655,3 +655,22 @@ def test_delete_booking_not_logged_in():
     url = '/booking_delete/1'
     response = client.get(url)
     assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_list_bookings_logged_in(user, customer, booking):
+    client = Client()
+    client.force_login(user)
+    url = reverse('list_all_bookings')
+    response = client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_list_user_leaves_not_logged_in():
+    client = Client()
+    url = reverse('list_all_bookings')
+    response = client.get(url)
+    assert response.status_code == 302
+    url = reverse('index')
+    assert response.url.startswith(url)
