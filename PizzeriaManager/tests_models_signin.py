@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, get_user_model
 from django.test import TestCase, Client
 from django.urls import reverse
 from PizzeriaManager.models import Customer, User, DaysOff, Menu, Order, PizzaIngredient, OrderItem, PizzaMenuItem, Profile\
-    , Shift
+    , Shift, Booking
 
 '''
 Tests written for sign-in functionality, testing model fields + relations and generic Create/Update/Delete model items.
@@ -425,3 +425,25 @@ class UserViewsTests(TestCase):
                                         email="jankowalski@gmail.com")
         resp = self.client.post(reverse('DeleteUser', kwargs={'pk': user.id}))
         self.assertEqual(resp.status_code, 302)
+
+
+class BaseBookingModelTestCase(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        super(BaseBookingModelTestCase, cls).setUpClass()
+        cls.user = User(first_name="jan", last_name="kowalski", password="asd", email="asd@asd.com",
+                        date_joined="2022-03-17 23:04:38.691991")
+        cls.user.save()
+        cls.booking = Booking(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
+        cls.booking.save()
+
+
+class BookingModelTestCase(BaseBookingModelTestCase):
+
+    def test_created_properly(self):
+        self.assertEqual(self.booking.booking_name, 'Jankowski')
+
+    def test_it_has_information_fields(self):
+        self.assertIsInstance(self.booking.booking_no_of_people, int)
+        self.assertIsInstance(self.booking.booking_date, datetime)
