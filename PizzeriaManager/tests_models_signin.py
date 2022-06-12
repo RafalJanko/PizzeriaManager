@@ -451,7 +451,7 @@ class BookingModelTestCase(BaseBookingModelTestCase):
 
 class BookingViewsTests(TestCase):
 
-    def test_shift_update_view(self):
+    def test_booking_update_view(self):
         user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
                                         email="jankowalski@gmail.com")
         booking = Booking.objects.create(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
@@ -461,23 +461,23 @@ class BookingViewsTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
-    def test_shift_delete_view(self):
+    def test_booking_delete_view(self):
         user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
                                         email="jankowalski@gmail.com")
         booking = Booking.objects.create(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
         resp = self.client.post(reverse('delete_booking', kwargs={'pk': booking.pk}))
         self.assertEqual(resp.status_code, 302)
 
-    def test_shift_add_view(self):
+    def test_booking_add_view(self):
         user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
                                         email="jankowalski@gmail.com")
         client = Client()
         client.force_login(user)
         url = reverse('create_booking')
         dct = {
-            'id':1,
+            'id': 1,
             'booking_name': 'Jankowski',
-            'user_id':1,
+            'user_id': 1,
             'booking_no_of_people': 4,
             'booking_time': "12:30:00"
         }
