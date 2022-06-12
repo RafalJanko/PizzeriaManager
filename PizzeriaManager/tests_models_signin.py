@@ -447,3 +447,40 @@ class BookingModelTestCase(BaseBookingModelTestCase):
     def test_it_has_information_fields(self):
         self.assertIsInstance(self.booking.booking_no_of_people, int)
         self.assertIsInstance(self.booking.booking_date, datetime)
+
+
+class BookingViewsTests(TestCase):
+
+    def test_shift_update_view(self):
+        user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
+                                        email="jankowalski@gmail.com")
+        booking = Booking.objects.create(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
+        response = self.client.post(
+            reverse('update_booking', kwargs={'pk': booking.pk}),
+                          {'booking_no_of_people':4})
+
+        self.assertEqual(response.status_code, 302)
+
+    def test_shift_delete_view(self):
+        user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
+                                        email="jankowalski@gmail.com")
+        booking = Booking.objects.create(booking_name="Jankowski", booking_no_of_people=3, user_id=1, booking_time="12:30:00")
+        resp = self.client.post(reverse('delete_booking', kwargs={'pk': booking.pk}))
+        self.assertEqual(resp.status_code, 302)
+
+    def test_shift_add_view(self):
+        user = User.objects.create_user(id=1, username="Janek", first_name="Jan", last_name="Kowalski",
+                                        email="jankowalski@gmail.com")
+        client = Client()
+        client.force_login(user)
+        url = reverse('create_booking')
+        dct = {
+            'id':1,
+            'booking_name': 'Jankowski',
+            'user_id':1,
+            'booking_no_of_people': 4,
+            'booking_time': "12:30:00"
+        }
+
+        response = self.client.post(url, dct)
+        self.assertEqual(response.status_code, 302)
