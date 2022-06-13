@@ -1,3 +1,7 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
@@ -11,7 +15,7 @@ from django.views.generic import UpdateView, ListView, DeleteView, CreateView
 from PizzeriaManager.models import PizzaMenuItem, Customer, Order, OrderItem, Profile, Shift, DaysOff, PizzaIngredient, Booking
 from django.shortcuts import render, redirect
 from cart.cart import Cart
-from PizzeriaManager.forms import ShiftForm, BookingForm
+from PizzeriaManager.forms import ShiftForm
 from django.forms import inlineformset_factory
 
 # Create your views here.
@@ -694,6 +698,30 @@ def ConfirmBookingView(request):
         booking_no_of_people = request.POST.get("booking_no_of_people")
 
         booking = Booking.objects.create(user=user, booking_name=booking_name, booking_time=booking_time, booking_no_of_people=booking_no_of_people)
+
+        def send_email_fct(filename, filepath, fromaddr, mdpfrom, toaddr):
+            """" filename: file name to be sent with extension
+                 filepath: file path of the file to be sent
+                 fromaddr: sender email address
+                 mdpfrom: password of sender email address
+                 toaddr: receiver email address"""
+
+        msg = MIMEMultipart()  # instance of MIMEMultipart
+        msg['From'] = "YOUR EMAIL ADDRESS"
+        msg['To'] = user.email
+        msg['Subject'] = "Booking request confirmation"
+
+        body_email = "Thank you for sending a request to book a table. We will let you know once the booking is confirmed"
+        msg.attach(MIMEText(body_email, 'plain'))
+
+        s = smtplib.SMTP('smtp.gmail.com', 587)  # SMTP
+        s.starttls()
+        s.login("YOUR EMAIL ADDRESS", "YOUR APP PASSWORD")
+
+        text = msg.as_string()
+
+        s.sendmail("YOUR EMAIL ADDRESS", user.email, text)  # sending the email
+        s.quit()  # terminating the session
 
         return render(request, "PizzeriaManager/confirm_booking.html")
 
