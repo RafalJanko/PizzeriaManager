@@ -748,3 +748,7 @@ class UpdateBookingView(LoginRequiredMixin, UpdateView):
     fields = '__all__'
     success_url = reverse_lazy('list_all_bookings')
     template_name = 'PizzeriaManager/form.html'
+
+
+def ContactView(request):
+    return render(request, "PizzeriaManager/contact.html")
