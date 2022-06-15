@@ -750,5 +750,7 @@ class UpdateBookingView(LoginRequiredMixin, UpdateView):
     template_name = 'PizzeriaManager/form.html'
 
 
+""" Simple contact page"""
+
 def ContactView(request):
     return render(request, "PizzeriaManager/contact.html")
