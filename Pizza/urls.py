@@ -21,7 +21,7 @@ from PizzeriaManager.views import index, login_view, register_view, cart_add, it
     UpdateOrderView, DeleteOrderView, view_staff, ShiftCreateView, UpdateShiftView, DeleteShiftView, DeleteUserView, RequestLeave,\
     ConfirmLeave, ListLeaves, ListAllLeaves, DeleteLeaveView, UpdateLeaveView, UpdateUserDetails, ToppingCreateView, listPizzas,\
     ToppingDeleteView, UpdateToppingView, DeletePizzaView, UpdatPizzaDetails, CreatePizzaView, CreateBookingView, ConfirmBookingView, \
-    ListAllBookings, DeleteBookingView, UpdateBookingView, ContactView
+    ListAllBookings, DeleteBookingView, UpdateBookingView, ContactView, ListUserBookings
 
 
 urlpatterns = [
@@ -71,4 +71,5 @@ urlpatterns = [
     path('booking_delete/<int:pk>', DeleteBookingView.as_view(), name='delete_booking'),
     path('booking_update/<int:pk>', UpdateBookingView.as_view(), name='update_booking'),
     path('contact', ContactView, name="contact"),
+    path('list_user_bookings/', ListUserBookings, name='list_user_bookings'),
 ]

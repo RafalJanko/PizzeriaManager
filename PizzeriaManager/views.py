@@ -754,3 +754,15 @@ class UpdateBookingView(LoginRequiredMixin, UpdateView):
 
 def ContactView(request):
     return render(request, "PizzeriaManager/contact.html")
+
+'''
+Functionality accessible only to logged in users.
+Functionality to list all bookings for a currently logged in user.
+'''
+
+
+@login_required(login_url="/login")
+def ListUserBookings(request):
+    if request.method == "GET":
+        bookings = Booking.objects.filter(user_id=request.user.id)
+        return render(request, "PizzeriaManager/listuserbookings.html", {"bookings":bookings})

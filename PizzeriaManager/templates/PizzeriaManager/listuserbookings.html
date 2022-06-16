@@ -1,0 +1,34 @@
+{% extends "PizzeriaManager/_base.html" %}
+{% load cart_tag %}
+
+{% block title %}Your bookings {% endblock %}
+
+
+{% block content %}
+
+    <h2 class="text-center">Your Bookings:</h2>
+
+    <table class="table">
+    <tr>
+    <th>Booking id</th>
+    <th>Booking name</th>
+    <th>Booking date</th>
+    <th>Booking time</th>
+    <th>Number of people</th>
+    <th>Booking status</th>
+    </tr>
+    {% for booking in bookings %}
+    <tr>
+
+        <td>{{ booking.id }}</td>
+        <td>{{ booking.booking_name }}</td>
+        <td>{{ booking.booking_date }}</td>
+        <td>{{ booking.booking_time }}</td>
+        <td>{{ booking.booking_no_of_people }}</td>
+        <td>{{ booking.status }}</td>
+    {% endfor %}
+    </tr>
+    </table>
+
+    <div class="text-center">If you wish to edit/cancel a leave request - please contact us via the phone or the contact form</div>
+{% endblock %}
