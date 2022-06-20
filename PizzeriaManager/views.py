@@ -711,7 +711,11 @@ def ConfirmBookingView(request):
         msg['To'] = user.email
         msg['Subject'] = "Booking request confirmation"
 
-        body_email = "Thank you for sending a request to book a table. We will let you know once the booking is confirmed"
+        body_email = f"Thank you for sending a request to book a table. " \
+                    f"Booking details are as follows:\r" \
+                     f"ID: {booking.id}\rdate: {booking.booking_date}\rtime: {booking.booking_time}\r" \
+                     f"guests: {booking.booking_no_of_people}\rbooking for: {booking.booking_name} \r" \
+                     f"We will let you know once the booking is confirmed"
         msg.attach(MIMEText(body_email, 'plain'))
 
         s = smtplib.SMTP('smtp.gmail.com', 587)  # SMTP
