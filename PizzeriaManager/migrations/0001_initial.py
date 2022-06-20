@@ -15,73 +15,147 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('full', models.CharField(max_length=150)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("full", models.CharField(max_length=150)),
             ],
         ),
         migrations.CreateModel(
-            name='Customer',
+            name="Customer",
             fields=[
-                ('customer_id', models.AutoField(primary_key=True, serialize=False)),
-                ('first_name', models.CharField(max_length=20)),
-                ('last_name', models.CharField(max_length=20)),
-                ('username', models.CharField(max_length=30)),
-                ('password', models.CharField(max_length=10)),
-                ('email', models.CharField(max_length=64)),
-                ('phone_no', models.CharField(max_length=12)),
+                ("customer_id", models.AutoField(primary_key=True, serialize=False)),
+                ("first_name", models.CharField(max_length=20)),
+                ("last_name", models.CharField(max_length=20)),
+                ("username", models.CharField(max_length=30)),
+                ("password", models.CharField(max_length=10)),
+                ("email", models.CharField(max_length=64)),
+                ("phone_no", models.CharField(max_length=12)),
             ],
         ),
         migrations.CreateModel(
-            name='Menu',
+            name="Menu",
             fields=[
-                ('item_id', models.PositiveIntegerField(primary_key=True, serialize=False)),
-                ('item_name', models.CharField(max_length=64)),
-                ('item_price', models.FloatField()),
+                (
+                    "item_id",
+                    models.PositiveIntegerField(primary_key=True, serialize=False),
+                ),
+                ("item_name", models.CharField(max_length=64)),
+                ("item_price", models.FloatField()),
             ],
         ),
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.DateTimeField(auto_now=True)),
-                ('total', models.DecimalField(decimal_places=2, default=0, max_digits=6)),
-                ('in_cart', models.BooleanField(default=True)),
-                ('completed', models.BooleanField(default=False)),
-                ('payment_method', models.CharField(max_length=50)),
-                ('customer', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='orders', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("timestamp", models.DateTimeField(auto_now=True)),
+                (
+                    "total",
+                    models.DecimalField(decimal_places=2, default=0, max_digits=6),
+                ),
+                ("in_cart", models.BooleanField(default=True)),
+                ("completed", models.BooleanField(default=False)),
+                ("payment_method", models.CharField(max_length=50)),
+                (
+                    "customer",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="orders",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PizzaIngredient',
+            name="PizzaIngredient",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
         ),
         migrations.CreateModel(
-            name='PizzaMenuItem',
+            name="PizzaMenuItem",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('category', models.CharField(default='Pizza', max_length=60)),
-                ('image', models.ImageField(default='temp', upload_to='products/')),
-                ('img', models.CharField(default=None, max_length=300, null=True)),
-                ('price', models.FloatField()),
-                ('size', models.CharField(blank=True, max_length=5)),
-                ('ingredients', models.ManyToManyField(related_name='ingredients', to='PizzeriaManager.PizzaIngredient')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                ("category", models.CharField(default="Pizza", max_length=60)),
+                ("image", models.ImageField(default="temp", upload_to="products/")),
+                ("img", models.CharField(default=None, max_length=300, null=True)),
+                ("price", models.FloatField()),
+                ("size", models.CharField(blank=True, max_length=5)),
+                (
+                    "ingredients",
+                    models.ManyToManyField(
+                        related_name="ingredients", to="PizzeriaManager.PizzaIngredient"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='OrderItem',
+            name="OrderItem",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(max_length=20)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('size', models.CharField(blank=True, max_length=5)),
-                ('order', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='items', to='PizzeriaManager.Order')),
-                ('toppings', models.ManyToManyField(blank=True, related_name='pizza', to='PizzeriaManager.PizzaIngredient')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category", models.CharField(max_length=20)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("size", models.CharField(blank=True, max_length=5)),
+                (
+                    "order",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="PizzeriaManager.Order",
+                    ),
+                ),
+                (
+                    "toppings",
+                    models.ManyToManyField(
+                        blank=True,
+                        related_name="pizza",
+                        to="PizzeriaManager.PizzaIngredient",
+                    ),
+                ),
             ],
         ),
     ]

@@ -9,16 +9,42 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('PizzeriaManager', '0005_order_address'),
+        ("PizzeriaManager", "0005_order_address"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('function', models.CharField(choices=[('Customer', 'Customer'), ('Staff', 'Staff'), ('Manager', 'Manager'), ('HR', 'HR')], default='Customer', max_length=10)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "function",
+                    models.CharField(
+                        choices=[
+                            ("Customer", "Customer"),
+                            ("Staff", "Staff"),
+                            ("Manager", "Manager"),
+                            ("HR", "HR"),
+                        ],
+                        default="Customer",
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

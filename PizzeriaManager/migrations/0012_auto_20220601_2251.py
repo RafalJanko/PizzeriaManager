@@ -7,13 +7,13 @@ import django.utils.timezone
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('PizzeriaManager', '0011_auto_20220601_2250'),
+        ("PizzeriaManager", "0011_auto_20220601_2250"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='booking',
-            name='booking_date',
+            model_name="booking",
+            name="booking_date",
             field=models.DateField(default=django.utils.timezone.now),
         ),
     ]

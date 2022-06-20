@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('PizzeriaManager', '0008_auto_20220325_0031'),
+        ("PizzeriaManager", "0008_auto_20220325_0031"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='shift',
-            name='shift',
-            field=models.CharField(choices=[('6:00 - 14:00', '6:00 - 14:00'), ('12:00 - 20:00', '12:00 - 20:00'), ('18:00 - 2:00', '18:00 - 2:00'), ('0:00 - 8:00', '0:00 - 8:00')], max_length=50),
+            model_name="shift",
+            name="shift",
+            field=models.CharField(
+                choices=[
+                    ("6:00 - 14:00", "6:00 - 14:00"),
+                    ("12:00 - 20:00", "12:00 - 20:00"),
+                    ("18:00 - 2:00", "18:00 - 2:00"),
+                    ("0:00 - 8:00", "0:00 - 8:00"),
+                ],
+                max_length=50,
+            ),
         ),
     ]

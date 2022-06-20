@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('PizzeriaManager', '0012_auto_20220601_2251'),
+        ("PizzeriaManager", "0012_auto_20220601_2251"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='booking',
-            name='status',
-            field=models.CharField(choices=[('Pending', 'Pending'), ('Approved', 'Approved'), ('Cancelled', 'Cancelled')], default='Pending', max_length=30),
+            model_name="booking",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Pending", "Pending"),
+                    ("Approved", "Approved"),
+                    ("Cancelled", "Cancelled"),
+                ],
+                default="Pending",
+                max_length=30,
+            ),
         ),
     ]
