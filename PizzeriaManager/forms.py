@@ -1,6 +1,6 @@
 from django import forms
 
-from PizzeriaManager.models import Customer, Shift, User, Booking
+from PizzeriaManager.models import Booking, Customer, Shift, User
 
 
 class UpdateUserDetails(forms.ModelForm):

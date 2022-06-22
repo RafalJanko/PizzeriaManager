@@ -1,22 +1,12 @@
 import datetime
-
-import pytest
 from datetime import date, time
 
+import pytest
 from django.contrib.auth.models import User
 
-from PizzeriaManager.models import (
-    User,
-    Customer,
-    PizzaMenuItem,
-    PizzaIngredient,
-    Profile,
-    Order,
-    OrderItem,
-    DaysOff,
-    Shift,
-    Booking,
-)
+from PizzeriaManager.models import (Booking, Customer, DaysOff, Order,
+                                    OrderItem, PizzaIngredient, PizzaMenuItem,
+                                    Profile, Shift, User)
 
 """
 Fixtures for PyTest - used in the tests.py file to create "dummy" data.

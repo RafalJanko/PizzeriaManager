@@ -2,31 +2,24 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.decorators import permission_required
-from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import authenticate, login
-from django.contrib.sessions.models import Session
-from django.http import HttpResponseRedirect, HttpResponse
-from django.urls import reverse, reverse_lazy
-from django.contrib.auth.models import User
-from django.views.generic import UpdateView, ListView, DeleteView, CreateView
-from PizzeriaManager.models import (
-    PizzaMenuItem,
-    Customer,
-    Order,
-    OrderItem,
-    Profile,
-    Shift,
-    DaysOff,
-    PizzaIngredient,
-    Booking,
-)
-from django.shortcuts import render, redirect
 from cart.cart import Cart
-from PizzeriaManager.forms import ShiftForm
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
 from django.forms import inlineformset_factory
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse, reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+from PizzeriaManager.forms import ShiftForm
+from PizzeriaManager.models import (Booking, Customer, DaysOff, Order,
+                                    OrderItem, PizzaIngredient, PizzaMenuItem,
+                                    Profile, Shift)
 
 # Create your views here.
 

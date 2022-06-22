@@ -1,6 +1,7 @@
 from datetime import date
-from django.test import Client
+
 import pytest
+from django.test import Client
 from django.urls import reverse
 
 # Create your tests here.

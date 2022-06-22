@@ -1,20 +1,12 @@
-from datetime import datetime, date
+from datetime import date, datetime
+
 from django.contrib.auth import authenticate, get_user_model
-from django.test import TestCase, Client
+from django.test import Client, TestCase
 from django.urls import reverse
-from PizzeriaManager.models import (
-    Customer,
-    User,
-    DaysOff,
-    Menu,
-    Order,
-    PizzaIngredient,
-    OrderItem,
-    PizzaMenuItem,
-    Profile,
-    Shift,
-    Booking,
-)
+
+from PizzeriaManager.models import (Booking, Customer, DaysOff, Menu, Order,
+                                    OrderItem, PizzaIngredient, PizzaMenuItem,
+                                    Profile, Shift, User)
 
 """
 Tests written for sign-in functionality, testing model fields + relations and generic Create/Update/Delete model items.
