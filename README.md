@@ -1,4 +1,5 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 # PizzeriaManager
 
 This is a Django-bassed application that is responsible for both ordering pizza online, as well as a whole employee management system. There are 4 types of users defined. When a user registers, he/she is automatically assigned a "Customer" type, however all users can be changed into "Staff", "Manager" or "HR. Depending on the user type, different views are accessible to the user.
