@@ -8,6 +8,8 @@ Customer users have the following functionalities:
 * Order pizzas online
 * View order history
 * Update user details in the system
+* Request table booking in a restaurant
+* View their own booking hisotry & status
 
 Staff users have the following functionalities:
 * All of the Customer functionalities are available
@@ -22,6 +24,7 @@ Manager/HR users have the following functionalities:
 * Edit placed order (update to "completed")
 * Edit the menu
 * Add new toppings and assign them to pizzas
+* Approve/Decline table booking requests
 
 The app has an authentication and authorization system.
 
