@@ -31,7 +31,7 @@ The app has an authentication and authorization system.
 
 ## Technology used
 
-Python 3, Django, Bootstrap, Django-cart, SQL, HTML
+Python 3, Django, Bootstrap, Django-cart, SQL, HTML, Black, iSort
 
 ## Tests
 
