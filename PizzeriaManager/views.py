@@ -868,3 +868,16 @@ def ListUserBookings(request):
         return render(
             request, "PizzeriaManager/listuserbookings.html", {"bookings": bookings}
         )
+
+
+"""
+Functionality accessible only to logged in users.
+Functionality to confirm a successful use of the contact form.
+"""
+
+@login_required(login_url="/login")
+def ConfirmContact(request):
+    user = request.user
+    return render(
+        request, "PizzeriaManager/confirm_contact.html", {"user": user}
+    )

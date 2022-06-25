@@ -34,7 +34,7 @@ from PizzeriaManager.views import (ConfirmBookingView, ConfirmLeave,
                                    cart_detail, checkout, index, item_clear,
                                    item_decrement, item_increment, listPizzas,
                                    login_view, manage_users, register_view,
-                                   thanks, view_staff)
+                                   thanks, view_staff, ConfirmContact)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -104,4 +104,5 @@ urlpatterns = [
     path("booking_update/<int:pk>", UpdateBookingView.as_view(), name="update_booking"),
     path("contact", ContactView, name="contact"),
     path("list_user_bookings/", ListUserBookings, name="list_user_bookings"),
+    path("confirm_contact/", ConfirmContact, name="confirm_contact"),
 ]
