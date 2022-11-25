@@ -100,7 +100,7 @@ class SigninTest(TestCase):
 
 * clone the repository from GitHub
 
-Using the console naviagte to the cloned repository and run the following commands"
+Using the console naviagte to the cloned repository and run the following commands:
 
 * pip install virtualenv
 * virtualenv “name as you like”
